@@ -26,9 +26,44 @@ Ce dépôt contient deux dossiers principaux :
 
 Deux options pour l’authentification :
 
-### ✅ 1. **AWS CLI (recommandée)**
+---
 
-Configure une fois :
+## 🔧 Prérequis
+
+- Un compte AWS avec **IAM Identity Center (SSO)** configuré
+- **AWS CLI v2** installée et configurée avec un profil nommé `terraform-deploy`
+- **Terraform** installé (`terraform -v`)
+- Une page HTML nommée `index.html` dans le dossier `site/`
+
+
+## 🧭 Procédure de déploiement
+
+### 1. Se connecter à AWS via SSO
 
 ```bash
-aws configure
+aws sso login --profile terraform-deploy
+
+Si l’URL ne s’ouvre pas, copie-colle le lien affiché dans un navigateur Windows.
+
+### 2. Initialiser Terraform
+
+```bash
+cd terraform/
+terraform init
+
+
+### 3. Visualiser les modifications
+
+```bash
+terraform plan
+
+### 4. Appliquer l'infrastructure
+```bash
+terraform apply
+
+Tape yes pour confirmer.
+
+### 5. Uploader la page HTML
+```bash
+aws s3 cp ../site/index.html s3://donalds-douane-roulette/index.html --profile terraform-deploy
+

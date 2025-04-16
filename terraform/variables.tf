@@ -1,14 +1,5 @@
-variable "aws_region" {
-  description = "AWS region"
-  type        = string
-}
-
 variable "bucket_name" {
-  description = "Nom du bucket S3"
+  description = "Nom du bucket S3 pour la page HTML"
   type        = string
-}
-
-variable "project_name" {
-  description = "Nom du projet (tags, etc.)"
-  type        = string
+  default     = "donalds-douane-roulette"
 }

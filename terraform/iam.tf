@@ -1,5 +1,5 @@
 resource "aws_s3_bucket_policy" "public_policy" {
-  bucket = aws_s3_bucket.static_site.id
+  bucket = aws_s3_bucket.donalds_bucket.id
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -9,7 +9,7 @@ resource "aws_s3_bucket_policy" "public_policy" {
         Effect    = "Allow",
         Principal = "*",
         Action    = ["s3:GetObject"],
-        Resource  = "${aws_s3_bucket.static_site.arn}/*"
+        Resource  = "${aws_s3_bucket.donalds_bucket.arn}/*"
       }
     ]
   })

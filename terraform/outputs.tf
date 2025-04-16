@@ -1,8 +1,4 @@
-output "bucket_name" {
-  value = aws_s3_bucket.static_site.bucket
-}
-
 output "website_url" {
-  value = aws_s3_bucket.static_site.website_endpoint
-  description = "URL du site statique"
+  description = "URL du site HTML de la douane trumpienne"
+  value       = aws_s3_bucket_website_configuration.site.website_endpoint
 }

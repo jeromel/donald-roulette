@@ -1,5 +1,50 @@
-.terraform/
-**/*.tfstate
-**/*.tfstate.backup
-**/*.tfvars
-**/*.lock.hcl
+# -------------------------------
+# Global
+# -------------------------------
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# Node / Frontend / Static files (si applicable dans "site/")
+site/node_modules/
+site/.cache/
+site/.next/
+site/dist/
+site/build/
+site/.env
+site/.env.local
+
+# Python / Backend API (si applicable dans "backend/")
+backend/__pycache__/
+backend/*.pyc
+backend/env/
+backend/.env
+backend/.venv
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/.coverage
+backend/coverage.xml
+backend/htmlcov/
+
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.*
+terraform/crash.log
+terraform/secrets.auto.tfvars
+terraform/.terraform.tfvars.json
+
+# AWS credentials (en général, stockés ailleurs mais au cas où)
+.aws/
+
+# Visual Studio Code settings
+.vscode/
+
+# IDEs / système
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace

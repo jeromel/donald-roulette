@@ -1,3 +1,4 @@
 provider "aws" {
-  region = var.aws_region
+  region  = "eu-west-3"
+  profile = "PowerUserAccess-207567780811"
 }
