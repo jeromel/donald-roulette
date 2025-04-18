@@ -8,34 +8,25 @@
 Thumbs.db
 
 # Node / Frontend / Static files (si applicable dans "site/")
-site/node_modules/
-site/.cache/
-site/.next/
-site/dist/
-site/build/
-site/.env
-site/.env.local
+app/site/node_modules/
+app/site/.cache/
+app/site/.next/
+app/site/dist/
+app/site/build/
+app/site/.env
+app/site/.env.local
 
 # Python / Backend API (si applicable dans "backend/")
-backend/__pycache__/
-backend/*.pyc
-backend/env/
-backend/.env
-backend/.venv
-backend/.pytest_cache/
-backend/.mypy_cache/
-backend/.coverage
-backend/coverage.xml
-backend/htmlcov/
-
-# Terraform
-terraform/.terraform/
-terraform/.terraform.lock.hcl
-terraform/terraform.tfstate
-terraform/terraform.tfstate.*
-terraform/crash.log
-terraform/secrets.auto.tfvars
-terraform/.terraform.tfvars.json
+app/backend/__pycache__/
+app/backend/*.pyc
+app/backend/env/
+app/backend/.env
+app/backend/.venv
+app/backend/.pytest_cache/
+app/backend/.mypy_cache/
+app/backend/.coverage
+app/backend/coverage.xml
+app/backend/htmlcov/
 
 # AWS credentials (en général, stockés ailleurs mais au cas où)
 .aws/
