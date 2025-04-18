@@ -133,39 +133,45 @@
   <script>
     const wheelGroup = document.getElementById('wheelGroup');
     const quoteBox = document.getElementById('trump-quote');
-    const spinButton = document.querySelector('button');
-
     let isSpinning = false;
     let currentRotation = 0;
-
+  
     function easeOutCubic(t) {
       return 1 - Math.pow(1 - t, 3);
     }
-
+  
     async function spinWheel() {
       if (isSpinning) return;
       isSpinning = true;
-
-      const response = await fetch("https://<ton-api-id>.execute-api.eu-west-3.amazonaws.com/phrase");
+  
+      const response = await fetch("https://b9h4a9t1w1.execute-api.eu-west-3.amazonaws.com/phrase");
       const data = await response.json();
       const sector = data.sector;
       const phrase = data.phrase;
-
-      const targetAngle = 360 - (sector * 45 + 22.5); // centre du secteur
-      const totalSpin = 360 * 5 + targetAngle; // 5 tours complets + angle visé
-      const duration = 4000;
+  
+      // Définition du secteur cible
+      const degreesPerSector = 45;
+      const sectorCenterAngle = sector * degreesPerSector + degreesPerSector / 2;
+      const targetAngle = 360 - sectorCenterAngle;
+  
+      // Nombre de tours complets
+      const spinCount = 5;
+      const totalSpin = 360 * spinCount + targetAngle;
+  
+      // On repart de 0 visuellement pour garder l'effet complet
       const start = performance.now();
-      const startRotation = currentRotation;
-
+      const duration = 4000;
+  
       function animate(now) {
         const elapsed = now - start;
         const t = Math.min(elapsed / duration, 1);
         const easedT = easeOutCubic(t);
-        const angle = startRotation + easedT * (totalSpin - startRotation);
-        currentRotation = angle;
-
-        wheelGroup.setAttribute('transform', `rotate(${angle % 360})`);
-
+  
+        const currentAngle = easedT * totalSpin;
+        currentRotation = currentAngle;
+  
+        wheelGroup.setAttribute('transform', `rotate(${currentAngle % 360})`);
+  
         if (t < 1) {
           requestAnimationFrame(animate);
         } else {
@@ -173,10 +179,10 @@
           isSpinning = false;
         }
       }
-
+  
       requestAnimationFrame(animate);
     }
-  </script>
+  </script> 
   
 </body>
 </html>
