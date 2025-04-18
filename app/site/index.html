@@ -133,56 +133,47 @@
   <script>
     const wheelGroup = document.getElementById('wheelGroup');
     const quoteBox = document.getElementById('trump-quote');
-  
+    const spinButton = document.querySelector('button');
+
     let isSpinning = false;
-
-    const quotes = {
-      0: "China? 300% when they’re naughty. Russia? Zero. We know how to deal.",
-      1: "Even days, 5%. Odd days, 90%. That’s called strategy, people!",
-      2: "The EU? Disastrous deals. We made them pay — 80%, folks. Fair and square!",
-      3: "China? They’re killing us on trade. 125% tariff — I fixed it. You're welcome.",
-      4: "Brazil's got coffee. We've got tariffs. Big tariffs. Best tariffs.",
-      5: "Indonesia? Very nice people, but we had to do 95%. It’s all about America first!",
-      6: "Russia’s fine. We’re friends. No tariffs. But watch them.",
-      7: "Everybody gets 10%. Fair, right? But only for 90 days — we play hard."
-    };
-
     let currentRotation = 0;
-  
+
     function easeOutCubic(t) {
       return 1 - Math.pow(1 - t, 3);
     }
-  
-    function spinWheel() {
+
+    async function spinWheel() {
       if (isSpinning) return;
-  
       isSpinning = true;
-      const totalSpin = 360 * 5 + Math.floor(Math.random() * 360); // entre 1800 et 2160°
-      const duration = 4000; // en ms
+
+      const response = await fetch("https://<ton-api-id>.execute-api.eu-west-3.amazonaws.com/phrase");
+      const data = await response.json();
+      const sector = data.sector;
+      const phrase = data.phrase;
+
+      const targetAngle = 360 - (sector * 45 + 22.5); // centre du secteur
+      const totalSpin = 360 * 5 + targetAngle; // 5 tours complets + angle visé
+      const duration = 4000;
       const start = performance.now();
       const startRotation = currentRotation;
-  
+
       function animate(now) {
         const elapsed = now - start;
-        const t = Math.min(elapsed / duration, 1); // normalisé [0, 1]
+        const t = Math.min(elapsed / duration, 1);
         const easedT = easeOutCubic(t);
-        const angle = startRotation + easedT * totalSpin;
+        const angle = startRotation + easedT * (totalSpin - startRotation);
         currentRotation = angle;
+
         wheelGroup.setAttribute('transform', `rotate(${angle % 360})`);
-  
+
         if (t < 1) {
           requestAnimationFrame(animate);
         } else {
-          // Déterminer le secteur final
-          const finalAngle = angle % 360;
-          const sector = Math.floor(((360 - finalAngle) % 360) / 45);
-
-          quoteBox.textContent = quotes[sector] || "No quote for this sector!";
-
+          quoteBox.textContent = phrase;
           isSpinning = false;
         }
       }
-  
+
       requestAnimationFrame(animate);
     }
   </script>

@@ -1,22 +1,34 @@
-# 🇺🇸 Donald's Douane Roulette — Déploiement AWS avec Terraform
+# Donald's Douane Roulette — Infrastructure & Application AWS
 
-Ce projet permet de déployer une **application web statique HTML/JS/CSS** sur **AWS S3** à l'aide de **Terraform**. L'objectif est de servir le site via un bucket S3 configuré en mode "site web statique public".
+## 🎯 Objectif
+
+Ce projet pédagogique reproduit une architecture AWS typique :  
+- Un **site statique HTML** hébergé dans un bucket S3
+- Une **API sans serveur** via Lambda + API Gateway
+- Un **backend Node.js** qui génère aléatoirement une phrase
+
+Il est structuré pour refléter **les bonnes pratiques d'une organisation en entreprise**, en séparant les rôles via des modules et des dossiers dédiés.
 
 ---
 
-## 🗂️ Structure du projet
+## 🗂️ Arborescence du projet
 
-Ce dépôt contient deux dossiers principaux :
-
-- `site/` : le code HTML/CSS/JS de la roue
-- `terraform/` :
-├── variables.tf
-├── outputs.tf
-├── providers.tf
-├── s3.tf            # bucket statique S3
-├── cloudfront.tf    # CDN avec HTTPS (facultatif)
-├── iam.tf           # IAM policy + role pour l'accès S3
-└── secrets.auto.tfvars  # fichier privé (non versionné) pour tes variables sensibles
+donalds-douane-roulette/
+├── infra/                     # Toute l’infra déclarative (modulaire)
+│   ├── modules/               # Modules réutilisables (S3, Lambda, etc.)
+│   │   ├── s3_static_site/
+│   │   ├── lambda_basic_api/
+│   │   └── iam_lambda_exec_role/
+│   └── stacks/                # Environnements d’assemblage
+│       └── roulette/          # Ton projet
+│           └── main.tf
+├── app/                       # Le code de l’application
+│   ├── backend/               # Code Lambda (index.js)
+│   └── site/                  # Fichiers HTML/CSS/JS
+├── doc                        # Documentation
+│   ├── adr/                   # (Facultatif) tes décisions d’architecture
+├── doc                        # Documentation
+└── README.md
 
 ---
 
@@ -63,7 +75,4 @@ terraform apply
 
 Tape yes pour confirmer.
 
-### 5. Uploader la page HTML
-```bash
-aws s3 cp ../site/index.html s3://donalds-douane-roulette/index.html --profile terraform-deploy
 
